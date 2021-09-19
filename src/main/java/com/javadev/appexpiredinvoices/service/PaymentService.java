@@ -61,7 +61,7 @@ public class PaymentService {
         Map<UUID,Double> overPaidInvoice = new LinkedHashMap<>();
         if (allIssueInvoices.isEmpty()) return new Response("paymentList is empty", true);
         for (PaymentProjection paymentProjection : allIssueInvoices) {
-            overPaidInvoice.put(paymentProjection.invoiceId(), paymentProjection.column());
+            overPaidInvoice.put(paymentProjection.invoiceId(), paymentProjection.overpaid());
         }
         return new Response("success", true, overPaidInvoice);
     }

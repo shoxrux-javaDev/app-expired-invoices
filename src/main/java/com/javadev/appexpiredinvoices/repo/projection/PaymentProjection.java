@@ -9,5 +9,5 @@ public interface PaymentProjection {
 
     UUID invoiceId();
 
-    double column();
+    double overpaid();
 }
