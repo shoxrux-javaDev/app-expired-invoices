@@ -7,6 +7,7 @@ import com.javadev.appexpiredinvoices.payload.InvoiceDto;
 import com.javadev.appexpiredinvoices.payload.Response;
 import com.javadev.appexpiredinvoices.repo.InvoiceRepo;
 import com.javadev.appexpiredinvoices.repo.OrderRepo;
+import com.javadev.appexpiredinvoices.repo.projection.GetWrongDate;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -78,13 +79,13 @@ public class InvoiceService {
 
     public Response getWrongInvoice() {
         List<Object> wrongInvoiceInfo = new ArrayList<>();
-        List<Invoice> invoiceList = invoiceRepo.getWrongDateInvoices();
+        List<GetWrongDate> invoiceList = invoiceRepo.getWrongDateInvoices();
         if (invoiceList.isEmpty()) return new Response("invoice is empty", false);
-        for (Invoice invoice : invoiceList) {
-            wrongInvoiceInfo.add(invoice.getId());
-            wrongInvoiceInfo.add(invoice.getCreatedAt());
-            wrongInvoiceInfo.add(invoice.getOrders().getId());
-            wrongInvoiceInfo.add(invoice.getOrders().getCreatedAt());
+        for (GetWrongDate getWrongDate : invoiceList) {
+            wrongInvoiceInfo.add(getWrongDate.getInvoiceId());
+            wrongInvoiceInfo.add(getWrongDate.getDateInv());
+            wrongInvoiceInfo.add(getWrongDate.getOrderId());
+            wrongInvoiceInfo.add(getWrongDate.getDateOrd());
         }
         return new Response("success", true, wrongInvoiceInfo);
     }

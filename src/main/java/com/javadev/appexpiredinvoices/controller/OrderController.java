@@ -80,8 +80,8 @@ public class OrderController {
 
     @PreAuthorize(value = "hasAnyRole('USER','ADMIN')")
     @GetMapping("/customers_last_orders")
-    public HttpEntity<?> getCustomerLastOrder(@RequestParam UUID id, @RequestParam String date) {
-        Response response = orderService.getCustomerLastOrder(id, date);
+    public HttpEntity<?> getCustomerLastOrder() {
+        Response response = orderService.getCustomerLastOrder();
         return ResponseEntity.status(response.isSuccess() ? 200 : 409).body(response);
     }
 

@@ -2,6 +2,8 @@ package com.javadev.appexpiredinvoices.service;
 
 import com.javadev.appexpiredinvoices.entity.Customer;
 import com.javadev.appexpiredinvoices.entity.Orders;
+import com.javadev.appexpiredinvoices.repo.projection.CustomerLastOrderProjection;
+import com.javadev.appexpiredinvoices.repo.projection.GetCustomerWithoutOrders;
 import com.javadev.appexpiredinvoices.repo.projection.OrderInterface;
 import com.javadev.appexpiredinvoices.payload.OrdersDto;
 import com.javadev.appexpiredinvoices.payload.Response;
@@ -10,9 +12,6 @@ import com.javadev.appexpiredinvoices.repo.OrderRepo;
 import com.javadev.appexpiredinvoices.repo.ProductRepo;
 import org.springframework.stereotype.Service;
 
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -79,24 +78,20 @@ public class OrderService {
     }
 
     public Response getCustomerWithoutOrders() {
-        List<Orders> ordersList = orderRepo.customersWithoutOrders();
+        List<GetCustomerWithoutOrders> ordersList = orderRepo.customersWithoutOrders();
         if (ordersList.isEmpty()) return new Response("orderList is empty", false);
         return new Response("success", true, ordersList);
     }
 
-    public Response getCustomerLastOrder(UUID id, String date) {
-        Optional<Customer> customerOptional = customerRepo.findById(id);
-        if (customerOptional.isEmpty()) return new Response("customer is not found", false);
+    public Response getCustomerLastOrder() {
+        List<CustomerLastOrderProjection> customerLastOrders = orderRepo.customerLastOrders();
+        if (customerLastOrders.isEmpty()) return new Response("customer is not found", false);
         List<Object> lastOrder = new ArrayList<>();
-        String start = date + "-01-31 00:00:00";
-        String end = date + "-12-31 00:00:00";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        LocalDateTime startDate = LocalDateTime.parse(start, formatter);
-        LocalDateTime endDate = LocalDateTime.parse(end, formatter);
-        Orders order = orderRepo.customerLastOrders(id, startDate, endDate);
-        lastOrder.add(order.getCustomer().getId());
-        lastOrder.add(order.getCustomer().getUsername());
-        lastOrder.add(order.getCreatedAt());
+        for (CustomerLastOrderProjection customerLastOrder : customerLastOrders) {
+            lastOrder.add(customerLastOrder.getId());
+            lastOrder.add(customerLastOrder.getName());
+            lastOrder.add(customerLastOrder.getDate());
+        }
         return new Response("success", true, lastOrder);
     }
 
@@ -110,9 +105,9 @@ public class OrderService {
         if (ordersList.isEmpty()) return new Response("orderList is empty", false);
         List<Object> idDateAndPrice = new ArrayList<>();
         ordersList.forEach(orders -> {
-            double priceOfProduct = productRepo.TotalPriceOfProduct(orders.customerId());
-            idDateAndPrice.add(orders.customerId());
-            idDateAndPrice.add(orders.createdAt());
+            double priceOfProduct = productRepo.TotalPriceOfProduct(orders.getId());
+            idDateAndPrice.add(orders.getCustomerId());
+            idDateAndPrice.add(orders.getDate());
             idDateAndPrice.add(priceOfProduct);
         });
         return new Response("success", true, idDateAndPrice);

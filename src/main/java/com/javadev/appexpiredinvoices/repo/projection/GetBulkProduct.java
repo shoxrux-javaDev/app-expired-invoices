@@ -5,10 +5,9 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public interface HighDemandProductProjection {
+public interface GetBulkProduct {
 
     UUID getId();
 
-    Integer getCount();
-
+    double getPrice();
 }

@@ -9,6 +9,7 @@ import com.javadev.appexpiredinvoices.payload.Response;
 import com.javadev.appexpiredinvoices.repo.DetailRepo;
 import com.javadev.appexpiredinvoices.repo.OrderRepo;
 import com.javadev.appexpiredinvoices.repo.ProductRepo;
+import com.javadev.appexpiredinvoices.repo.projection.GetBulkProduct;
 import com.javadev.appexpiredinvoices.repo.projection.HighDemandProductProjection;
 import org.springframework.stereotype.Service;
 
@@ -86,17 +87,17 @@ public class DetailService {
         if (highDemandProducts.isEmpty()) return new Response("detail is empty", false);
         Map<UUID, Integer> highDemand = new LinkedHashMap<>();
         for (HighDemandProductProjection highDemandProduct : highDemandProducts) {
-            highDemand.put(highDemandProduct.orderId(), highDemandProduct.count());
+            highDemand.put(highDemandProduct.getId(), highDemandProduct.getCount());
         }
         return new Response("success", true, highDemand);
     }
 
     public Response getBulkProductPrice() {
-        List<Product> detailList = productRepo.bulkProduct();
+        List<GetBulkProduct> detailList = productRepo.bulkProduct();
         if (detailList.isEmpty()) return new Response("detail product list is empty", false);
         Map<UUID, Double> idAndPrice = new LinkedHashMap<>();
-        for (Product product : detailList) {
-            idAndPrice.put(product.getId(), product.getPrice());
+        for (GetBulkProduct getBulkProduct : detailList) {
+            idAndPrice.put(getBulkProduct.getId(), getBulkProduct.getPrice());
         }
         return new Response("success", true, idAndPrice);
     }

@@ -6,13 +6,14 @@ import java.time.Instant;
 import java.util.UUID;
 
 @Component
-public interface OrderInterface {
+public interface GetWrongDate {
 
-    UUID getId();
+    UUID getInvoiceId();
 
-    Instant getDate();
+    Instant getDateInv();
 
-    UUID getCustomerId();
+    UUID getOrderId();
 
+    Instant getDateOrd();
 
 }

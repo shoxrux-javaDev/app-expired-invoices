@@ -7,7 +7,7 @@ import java.util.UUID;
 @Component
 public interface PaymentProjection {
 
-    UUID invoiceId();
+    UUID getId();
 
-    double overpaid();
+    double getOverpaid();
 }

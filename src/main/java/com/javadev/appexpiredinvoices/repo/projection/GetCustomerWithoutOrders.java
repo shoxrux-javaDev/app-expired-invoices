@@ -5,10 +5,17 @@ import org.springframework.stereotype.Component;
 import java.util.UUID;
 
 @Component
-public interface HighDemandProductProjection {
+public interface GetCustomerWithoutOrders {
 
     UUID getId();
 
-    Integer getCount();
+    String getName();
+
+    String getCty();
+
+    String getRes();
+
+    String getPhone();
+
 
 }
