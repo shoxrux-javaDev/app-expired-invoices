@@ -23,5 +23,4 @@ public class Orders extends AbsUUID {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     private Customer customer;
 
-
 }

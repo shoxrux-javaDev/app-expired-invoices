@@ -16,8 +16,4 @@ public interface ProductRepo extends JpaRepository<Product, UUID> {
             " where d.quantity>8 order by p.created_at", nativeQuery = true)
     List<GetBulkProduct> bulkProduct();//8-task
 
-    @Query(value = "select sum(d.quantity*p.price) from product p join detail d on p.id=d.product_id_id" +
-            " where d.order_id_id=?1", nativeQuery = true)
-    double TotalPriceOfProduct(UUID id);
-
 }

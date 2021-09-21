@@ -105,10 +105,9 @@ public class OrderService {
         if (ordersList.isEmpty()) return new Response("orderList is empty", false);
         List<Object> idDateAndPrice = new ArrayList<>();
         ordersList.forEach(orders -> {
-            double priceOfProduct = productRepo.TotalPriceOfProduct(orders.getId());
-            idDateAndPrice.add(orders.getCustomerId());
+            idDateAndPrice.add(orders.getId());
             idDateAndPrice.add(orders.getDate());
-            idDateAndPrice.add(priceOfProduct);
+            idDateAndPrice.add(orders.getPrice());
         });
         return new Response("success", true, idDateAndPrice);
     }

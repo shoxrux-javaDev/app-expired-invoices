@@ -32,9 +32,8 @@ public interface OrderRepo extends JpaRepository<Orders, UUID> {
             " where o.created_at between '2016-01-01 00:00:00' and '2016-12-31 00:00:00'", nativeQuery = true)
     Integer numberOfProductInYear();//9-task
 
-    @Query(value = "select o.id as id,o.date as date,o.customer_id_id as customerId from orders o left outer join invoice i on o.id = i.order_id_id " +
-            "where i.order_id_id is null " +
-            "intersect " +
-            "select o.id as id,o.date as date,o.customer_id_id as customerId from detail d join orders o on o.id = d.order_id_id ", nativeQuery = true)
+    @Query(value = "select o.id, o.created_at,sum(d.quantity*p.price) as price from orders o join detail d " +
+            " on o.id = d.order_id_id join product p on p.id = d.product_id_id " +
+            " where not exists (select i from invoice i where o.id = i.order_id_id) group by o.id, o.created_at", nativeQuery = true)
     List<OrderInterface> ordersWithoutInvoices();//10-task
 }
