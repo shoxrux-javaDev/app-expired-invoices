@@ -2,7 +2,6 @@ package com.javadev.appexpiredinvoices.entity;
 
 import com.javadev.appexpiredinvoices.entity.template.AbsUUID;
 import com.javadev.appexpiredinvoices.enums.Permission;
-import jdk.jfr.Name;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -14,7 +13,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import javax.validation.constraints.Size;
 import java.util.*;
 

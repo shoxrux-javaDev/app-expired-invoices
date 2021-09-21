@@ -1,6 +1,5 @@
 package com.javadev.appexpiredinvoices.service;
 
-import com.javadev.appexpiredinvoices.entity.Customer;
 import com.javadev.appexpiredinvoices.entity.Invoice;
 import com.javadev.appexpiredinvoices.entity.Orders;
 import com.javadev.appexpiredinvoices.payload.InvoiceDto;
@@ -8,7 +7,6 @@ import com.javadev.appexpiredinvoices.payload.Response;
 import com.javadev.appexpiredinvoices.repo.InvoiceRepo;
 import com.javadev.appexpiredinvoices.repo.OrderRepo;
 import com.javadev.appexpiredinvoices.repo.projection.GetWrongDate;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -78,14 +76,12 @@ public class InvoiceService {
     }
 
     public Response getWrongInvoice() {
-        List<Object> wrongInvoiceInfo = new ArrayList<>();
+        Map<UUID, List<Object>> wrongInvoiceInfo = new LinkedHashMap<>();
         List<GetWrongDate> invoiceList = invoiceRepo.getWrongDateInvoices();
         if (invoiceList.isEmpty()) return new Response("invoice is empty", false);
         for (GetWrongDate getWrongDate : invoiceList) {
-            wrongInvoiceInfo.add(getWrongDate.getInvoiceId());
-            wrongInvoiceInfo.add(getWrongDate.getDateInv());
-            wrongInvoiceInfo.add(getWrongDate.getOrderId());
-            wrongInvoiceInfo.add(getWrongDate.getDateOrd());
+            wrongInvoiceInfo.put(getWrongDate.getInvoiceId(), new ArrayList<>(Arrays.asList(getWrongDate.getInvoiceId(),
+                    getWrongDate.getDateInv(), getWrongDate.getOrderId(), getWrongDate.getDateOrd())));
         }
         return new Response("success", true, wrongInvoiceInfo);
     }
