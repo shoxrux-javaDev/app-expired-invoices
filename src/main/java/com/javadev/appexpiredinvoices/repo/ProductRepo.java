@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface ProductRepo extends JpaRepository<Product, UUID> {
 
-    @Query(value = "select p.id as id,p.price as price from product p join detail d on p.id=d.product_id_id" +
+    @Query(value = "select p.id as id,p.price as price from product p join detail d on p.id=d.product_id" +
             " where d.quantity>8 order by p.created_at", nativeQuery = true)
     List<GetBulkProduct> bulkProduct();//8-task
 

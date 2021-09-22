@@ -3,7 +3,6 @@ package com.javadev.appexpiredinvoices.service;
 import com.javadev.appexpiredinvoices.entity.Attachment;
 import com.javadev.appexpiredinvoices.entity.Category;
 import com.javadev.appexpiredinvoices.entity.Product;
-import com.javadev.appexpiredinvoices.payload.PaymentDto;
 import com.javadev.appexpiredinvoices.payload.ProductDto;
 import com.javadev.appexpiredinvoices.payload.Response;
 import com.javadev.appexpiredinvoices.repo.AttachmentRepo;

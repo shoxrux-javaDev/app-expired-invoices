@@ -20,20 +20,20 @@ public interface OrderRepo extends JpaRepository<Orders, UUID> {
     List<Orders> ordersWithoutDetails();//3-task
 
     @Query(value = "select c.id as id,c.username as name,c.country as cty,c.address as res,c.phone as phone " +
-            "from Orders o join customer c on c.id=o.customer_id_id where o.date not between " +
+            "from Orders o join customer c on c.id=o.customer_id where o.date not between " +
             "'2016-01-01T00:00:00' and '2016-12-31T00:00:00'", nativeQuery = true)
     List<GetCustomerWithoutOrders> customersWithoutOrders();//4-section
 
-    @Query(value = "select o.customer_id_id as id,c.name as name,max(o.date) as date from orders o join customer c on c.id=o.customer_id_id" +
-            " group by o.customer_id_id, c.name,c.name having count(o.customer_id_id)>1 order by o.customer_id_id", nativeQuery = true)
+    @Query(value = "select o.customer_id as id,c.name as name,max(o.date) as date from orders o join customer c on c.id=o.customer_id " +
+            " group by o.customer_id, c.name,c.name having count(o.customer_id)>1 order by o.customer_id ", nativeQuery = true)
     List<CustomerLastOrderProjection> customerLastOrders();//5-task
 
-    @Query(value = "select count(o.id) from Orders o join Customer c on c.id = o.customer_id_id " +
+    @Query(value = "select count(o.id) from Orders o join Customer c on c.id = o.customer_id " +
             " where o.created_at between '2016-01-01 00:00:00' and '2016-12-31 00:00:00'", nativeQuery = true)
     Integer numberOfProductInYear();//9-task
 
     @Query(value = "select o.id, o.created_at,sum(d.quantity*p.price) as price from orders o join detail d " +
-            " on o.id = d.order_id_id join product p on p.id = d.product_id_id " +
-            " where not exists (select i from invoice i where o.id = i.order_id_id) group by o.id, o.created_at", nativeQuery = true)
+            " on o.id = d.orders_id join product p on p.id = d.product_id " +
+            " where not exists (select i from invoice i where o.id = i.orders_id) group by o.id, o.created_at", nativeQuery = true)
     List<OrderInterface> ordersWithoutInvoices();//10-task
 }

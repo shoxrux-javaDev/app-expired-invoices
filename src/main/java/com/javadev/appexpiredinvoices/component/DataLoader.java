@@ -6,7 +6,6 @@ import com.javadev.appexpiredinvoices.enums.EnumRole;
 import com.javadev.appexpiredinvoices.enums.Permission;
 import com.javadev.appexpiredinvoices.repo.CustomerRepo;
 import com.javadev.appexpiredinvoices.repo.RoleRepo;
-import com.javadev.appexpiredinvoices.util.AppConstant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -43,14 +42,15 @@ public class DataLoader implements CommandLineRunner {
 
             Role user = roleRepo.save(new Role(EnumRole.USER));
 
-            customerRepo.save(new Customer("Shoxrux", passwordEncoder.encode("admin123"), "Uzbekistan",
-                    "shoxruxsindarov1996@gmail.com", "Tashkent chilanzar 9", "+998998049358",
-                    Collections.singleton(admin), Arrays.asList(values), null, true));
+            customerRepo.save(new Customer("Shoxrux", passwordEncoder.encode("admin123"),
+                    "Uzbekistan", "shoxruxsindarov1996@gmail.com", "Tashkent chilanzar 9",
+                    "+998998049358", Collections.singleton(admin), Arrays.asList(values),
+                    null, true));
 
 
-            customerRepo.save(new Customer("Abbos", passwordEncoder.encode("user123"), "Uzbekistan",
-                    "xattabummar@gmail.com", "Tashkent Yunusobod", "+998996358978",
-                    Collections.singleton(user), Arrays.asList(
+            customerRepo.save(new Customer("Abbos", passwordEncoder.encode("user123"),
+                    "Uzbekistan", "xattabummar@gmail.com", "Tashkent Yunusobod",
+                    "+998996358978", Collections.singleton(user), Arrays.asList(
                     ADD_PAYMENT, VIEW_PAYMENT,
                     VIEW_ORDER, VIEW_DETAIL), null, true));
         }
